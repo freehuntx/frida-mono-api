@@ -561,7 +561,7 @@ let MonoApi = {
   mono_object_new_fast: null,
   mono_object_new_from_token: null,
   mono_object_new_specific: null,
-  mono_object_unbox: null,
+  mono_object_unbox: ['pointer', ['pointer']],
   mono_opcode_name: null,
   mono_opcode_value: null,
   mono_pagesize: null,
