@@ -6,6 +6,8 @@ const MonoApiHelper = {
   AssemblyForeach: cb => {
     return MonoApi.mono_assembly_foreach(MonoApi.mono_assembly_foreach.nativeCallback(cb), NULL)
   },
+  ClassEnumBasetype: MonoApi.mono_class_enum_basetype,
+  ClassFromMonoType: MonoApi.mono_class_from_mono_type,
   ClassFromName: (mono_image, name) => {
     const resolved = resolveClassName(name)
     return MonoApi.mono_class_from_name(mono_image, Memory.allocUtf8String(resolved.namespace), Memory.allocUtf8String(resolved.className))
@@ -40,6 +42,7 @@ const MonoApiHelper = {
     return Memory.readUtf8String(MonoApi.mono_class_get_name(mono_class))
   },
   ClassGetType: MonoApi.mono_class_get_type,
+  ClassIsEnum: mono_class => MonoApi.mono_class_is_enum(mono_class) === 1,
   CompileMethod: MonoApi.mono_compile_method,
   DomainGet: MonoApi.mono_domain_get,
   FieldGetFlags: MonoApi.mono_field_get_flags,
@@ -81,7 +84,8 @@ const MonoApiHelper = {
   },
   StringNew: (str, domain = rootDomain) => MonoApi.mono_string_new(domain, Memory.allocUtf8String(str)),
   StringToUtf8: mono_string => Memory.readUtf8String(MonoApi.mono_string_to_utf8(mono_string)),
-  TypeGetName: MonoApi.mono_type_get_name,
+  TypeGetClass: MonoApi.mono_type_get_class,
+  TypeGetName: mono_type => Memory.readUtf8String(MonoApi.mono_type_get_name(mono_type)),
   TypeGetType: MonoApi.mono_type_get_type,
   TypeGetUnderlyingType: MonoApi.mono_type_get_underlying_type,
   ValueBox: (mono_class, valuePtr, domain = rootDomain) => MonoApi.mono_value_box(domain, mono_class, valuePtr)
