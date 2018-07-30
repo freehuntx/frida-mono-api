@@ -17,7 +17,7 @@ const MonoApiHelper = {
     const fields = []
     const iter = Memory.alloc(Process.pointerSize)
     let field
-    
+
     while(!(field = MonoApi.mono_class_get_fields(mono_class, iter)).isNull()) {
       fields.push(field)
     }
@@ -30,7 +30,7 @@ const MonoApiHelper = {
     const methods = []
     const iter = Memory.alloc(Process.pointerSize)
     let method
-    
+
     while(!(method = MonoApi.mono_class_get_methods(mono_class, iter)).isNull()) {
       methods.push(method)
     }
@@ -58,12 +58,12 @@ const MonoApiHelper = {
   MethodSignature: MonoApi.mono_method_signature,
   ObjectGetClass: MonoApi.mono_object_get_class,
   ObjectGetVirtualMethod: MonoApi.mono_object_get_virtual_method,
-  ObjectNew: (mono_class, domain = rootDomain) => MonoApi.mono_object_new(mono_class, domain),
+  ObjectNew: (mono_class, domain = rootDomain) => MonoApi.mono_object_new(domain, mono_class),
   ObjectUnbox: mono_object => MonoApi.mono_object_unbox(mono_object),
   RuntimeInvoke: (mono_method, instance = NULL, args = NULL) => {
     const exception = NULL
     const result = MonoApi.mono_runtime_invoke(mono_method, instance, args, exception)
-  
+
     if (!exception.isNull()) throw new Error('Unknown exception happened algjwsh')
     return result
   },
@@ -72,11 +72,11 @@ const MonoApiHelper = {
     let params = []
     let iter = Memory.alloc(Process.pointerSize)
     let type
-  
+
     while(!(type = MonoApi.mono_signature_get_params(signature, iter)).isNull()) {
       params.push(type)
     }
-    
+
     return params
   },
   StringNew: (str, domain = rootDomain) => MonoApi.mono_string_new(domain, Memory.allocUtf8String(str)),
