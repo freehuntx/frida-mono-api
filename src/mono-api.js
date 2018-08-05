@@ -26,7 +26,7 @@ let MonoApi = {
   mono_assembly_invoke_search_hook: null,
   mono_assembly_load: null,
   mono_assembly_load_from: null,
-  mono_assembly_load_from_full: null,
+  mono_assembly_load_from_full: ['pointer', ['pointer', 'pointer', 'pointer', 'uchar']],
   mono_assembly_load_full: null,
   mono_assembly_load_module: null,
   mono_assembly_load_reference: null,

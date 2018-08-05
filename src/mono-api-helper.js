@@ -6,6 +6,9 @@ const MonoApiHelper = {
   AssemblyForeach: cb => {
     return MonoApi.mono_assembly_foreach(MonoApi.mono_assembly_foreach.nativeCallback(cb), NULL)
   },
+  AssemblyLoadFromFull: (mono_image, filename, openStatusPtr, refonly) => {
+    return MonoApi.mono_assembly_load_from_full(mono_image, Memory.allocUtf8String(filename), openStatusPtr, refonly)
+  },
   ClassEnumBasetype: MonoApi.mono_class_enum_basetype,
   ClassFromMonoType: MonoApi.mono_class_from_mono_type,
   ClassFromName: (mono_image, name) => {

@@ -1,7 +1,7 @@
 {
   "name": "frida-mono-api",
   "description": "All the mono c exports, ready to be used in frida!",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "FreehuntX",
   "homepage": "https://github.com/freehuntx/frida-mono-api#readme",
   "repository": {
