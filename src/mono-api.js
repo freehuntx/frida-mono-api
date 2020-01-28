@@ -790,17 +790,17 @@ let MonoApi = {
 
 Object.keys(MonoApi).map(exportName => {
   if (MonoApi[exportName] === null) {
-    MonoApi[exportName] = () => { throw new Error('Export not implemented: ' + exportName) }
+    MonoApi[exportName] = () => { throw new Error('Export signature missing: ' + exportName) }
   }
   else {
     const addr = Module.findExportByName(monoModule.name, exportName)
-    if (addr.isNull())
-      MonoApi[exportName] = () => { throw new Error('Export not found: ' + exportName) }
-    else
-      MonoApi[exportName] = new ExNativeFunction(addr, ...MonoApi[exportName])
+    MonoApi[exportName] = addr.isNull()
+      ? () => { throw new Error('Export not found: ' + exportName) }
+      : MonoApi[exportName] = new ExNativeFunction(addr, ...MonoApi[exportName])
   }
 })
 
-MonoApi.mono_thread_attach(MonoApi.mono_get_root_domain()) // Make sure we are attached to mono
+MonoApi.mono_thread_attach(MonoApi.mono_get_root_domain()) // Make sure we are attached to mono.
+MonoApi.module = monoModule; // Expose the module object.
 
 export default MonoApi
