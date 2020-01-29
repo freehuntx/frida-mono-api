@@ -70,7 +70,7 @@ const MonoApiHelper = {
     const exception = NULL
     const result = MonoApi.mono_runtime_invoke(mono_method, instance, args, exception)
 
-    if (!exception.isNull()) throw new Error('Unknown exception happened algjwsh')
+    if (!exception.isNull()) throw new Error('Unknown exception happened.');
     return result
   },
   SignatureGetParamCount: MonoApi.mono_signature_get_param_count,
@@ -91,7 +91,19 @@ const MonoApiHelper = {
   TypeGetName: mono_type => Memory.readUtf8String(MonoApi.mono_type_get_name(mono_type)),
   TypeGetType: MonoApi.mono_type_get_type,
   TypeGetUnderlyingType: MonoApi.mono_type_get_underlying_type,
-  ValueBox: (mono_class, valuePtr, domain = rootDomain) => MonoApi.mono_value_box(domain, mono_class, valuePtr)
+  ValueBox: (mono_class, valuePtr, domain = rootDomain) => MonoApi.mono_value_box(domain, mono_class, valuePtr),
+  Intercept: hookManagedMethod
+}
+
+function hookManagedMethod(klass, methodName, callbacks) {
+  if (!callbacks) throw new Error('callbacks must be an object!');
+  if (!callbacks.onEnter && !callbacks.onLeave) throw new Error('At least one callback is required!');
+
+  let md = MonoApiHelper.ClassGetMethodFromName(klass, methodName);
+  if (!md) throw new Error('Method not found!');
+  let impl = MonoApi.mono_compile_method(md)
+
+  Interceptor.attach(impl, {...callbacks});
 }
 
 function resolveClassName(className) {
