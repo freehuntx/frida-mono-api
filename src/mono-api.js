@@ -796,7 +796,7 @@ Object.keys(MonoApi).map(exportName => {
   }
   else {
     const addr = Module.findExportByName(monoModule.name, exportName)
-    MonoApi[exportName] = addr.isNull()
+    MonoApi[exportName] = !addr
       ? () => { throw new Error('Export not found: ' + exportName) }
       : MonoApi[exportName] = new ExNativeFunction(addr, ...MonoApi[exportName])
   }
