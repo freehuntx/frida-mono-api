@@ -1,3 +1,5 @@
+**This project is in a poc state. Please dont use it in production. Rather use it as inspiration :) Im open for every contribution!**
+
 # frida-mono-api
 This module is meant to be used inside of a frida module.  
 An easy injector can be found here: [frida-inject](https://github.com/freehuntx/frida-inject)  
