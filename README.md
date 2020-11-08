@@ -1,3 +1,8 @@
+Note: Im currently reworking https://github.com/freehuntx/frida-mono  
+The new version will include everything from this repo & more!  
+Current dev branch: https://github.com/freehuntx/frida-mono/tree/feature/v1
+---
+
 **This project is in a poc state. Please dont use it in production. Rather use it as inspiration :) Im open for every contribution!**
 
 # frida-mono-api
